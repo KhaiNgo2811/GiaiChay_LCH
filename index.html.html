@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuyến Chạy Việt Dã - FIS TOURNAMENT 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f4f7fb 0%, #e8eef7 100%);
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-logo {
+            width: 100px;
+            height: auto;
+            margin: 0 auto 16px;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            background: white;
+            border-radius: 12px; /* hoặc bỏ hẳn dòng này nếu muốn giữ nguyên */
+        }
+
+
+        h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 30px 25px;
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #1a73e8;
+        }
+
+        .info-section h2 {
+            color: #1a73e8;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-section h2::before {
+            content: "📍";
+            margin-right: 8px;
+            font-size: 1em;
+        }
+
+        .station {
+            background: white;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .station:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+        }
+
+        .station::after {
+            content: "👉";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .station:hover::after {
+            opacity: 1;
+        }
+
+        .station-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-right: 12px;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .station:hover .station-badge {
+            transform: scale(1.1);
+        }
+
+        .station-start { border-left-color: #f44336; }
+        .station-start .station-badge { background: linear-gradient(135deg, #f44336 0%, #e91e63 100%); }
+
+        .station-checkpoint1 { border-left-color: #ff9800; }
+        .station-checkpoint1 .station-badge { background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%); }
+
+        .station-checkpoint2 { border-left-color: #4caf50; }
+        .station-checkpoint2 .station-badge { background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%); }
+
+        .station-finish { border-left-color: #9c27b0; }
+        .station-finish .station-badge { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #333;
+            display: inline-block;
+        }
+
+        .distance-info {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+            border-left: 5px solid #ff9800;
+            text-align: center;
+        }
+
+        .gender-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .gender-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .gender-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .gender-card.male {
+            border-top: 3px solid #2196f3;
+        }
+
+        .gender-card.female {
+            border-top: 3px solid #e91e63;
+        }
+
+        .gender-card h4 {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .gender-card.male h4 {
+            color: #2196f3;
+        }
+
+        .gender-card.female h4 {
+            color: #e91e63;
+        }
+
+        .gender-card .laps {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .gender-card.male .laps {
+            color: #2196f3;
+        }
+
+        .gender-card.female .laps {
+            color: #e91e63;
+        }
+
+        .maps-section {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .maps-section h2 {
+            color: #1a73e8;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .maps-section h2::before {
+            content: "🗺️";
+            margin-right: 8px;
+        }
+
+        .map-container {
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .map-label {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            display: block;
+        }
+
+        .note-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .note-section h3 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+        }
+
+        .note-section h3::before {
+            content: "📝";
+            margin-right: 8px;
+        }
+
+        .note-section ul {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+
+        .note-section li {
+            margin: 8px 0;
+            padding-left: 8px;
+            font-size: 0.95em;
+        }
+
+        .footer {
+            background: #1a73e8;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            font-size: 0.9em;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px 15px;
+            }
+
+            .gender-info {
+                grid-template-columns: 1fr;
+            }
+
+            iframe {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            iframe {
+                height: 400px;
+            }
+
+            .station-badge {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img
+                src="file:///D:\GiaiChay_LCH\image\LOGO LCH (stroke).png"
+                alt="Logo CLB LCH"
+                class="header-logo"
+            />
+            <h1>Tuyến Chạy Việt Dã - FIS TOURNAMENT 2025</h1>
+            <div class="subtitle">University of Economics and Law (UEL)</div>
+        </div>
+
+
+        <div class="content">
+            <div class="info-section">
+                <h2>Thông Tin Lộ Trình</h2>
+
+                <div class="station station-start" onclick="scrollToMap('start')">
+                    <span class="station-badge">A</span>
+                    <strong>Điểm Xuất Phát:</strong> <span class="highlight">Sân Cầu Lông - Trạm bảo vệ</span>
+                </div>
+
+                <div class="station station-checkpoint1" onclick="scrollToMap('checkpoint1')">
+                    <span class="station-badge">B</span>
+                    <strong>Trạm Tiếp Sức 1:</strong> <span class="highlight">Gần nhà xe</span>
+                </div>
+
+                <div class="station station-checkpoint2" onclick="scrollToMap('checkpoint2')">
+                    <span class="station-badge">C</span>
+                    <strong>Trạm Tiếp Sức 2:</strong> <span class="highlight">Trước tòa A gần khu không gian tĩnh lặng</span>
+                </div>
+
+                <div class="station station-finish" onclick="scrollToMap('finish')">
+                    <span class="station-badge">D</span>
+                    <strong>Điểm Về Đích:</strong> <span class="highlight">Cuối đường Fintech</span>
+                </div>
+            </div>
+
+            <div class="distance-info">
+                <div style="font-size: 1em;">🔄 <strong>Thông tin vòng chạy:</strong></div>
+
+                <div class="gender-info">
+                    <div class="gender-card male">
+                        <h4>👨 Nam</h4>
+                        <div class="laps">4 vòng</div>
+                    </div>
+
+                    <div class="gender-card female">
+                        <h4>👩 Nữ</h4>
+                        <div class="laps">3 vòng</div>
+                    </div>
+                </div>
+
+                <p style="color: #666; margin-top: 8px; font-size: 0.9em;">
+                    Vận động viên hoàn thành cự ly theo số vòng quy định
+                </p>
+            </div>
+
+            <div class="maps-section" id="map-section">
+                <h2>Bản Đồ Lộ Trình</h2>
+
+                <div class="map-container">
+                    <div class="map-label">🗺️ Tuyến Đường Chính - Lộ Trình Chi Tiết</div>
+                    <iframe
+                        id="main-map"
+                        src="https://www.google.com/maps/d/u/0/embed?mid=1EP7b343oRo-f_HQm00_GJLgEQ7MRUaw&ehbc=2E312F"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="note-section">
+                <h3>Ghi Chú</h3>
+                <ul>
+                    <li><strong>Nam (4 vòng):</strong> Vận động viên nam hoàn thành 4 vòng theo tuyến đường đã định.</li>
+                    <li><strong>Nữ (3 vòng):</strong> Vận động viên nữ hoàn thành 3 vòng theo tuyến đường đã định.</li>
+                    <li><strong>Điểm A & D:</strong> Xuất phát và về đích tại cùng một địa điểm.</li>
+                    <li><strong>Trạm B & C:</strong> Tiếp sức tại 2 điểm chiến lược trên tuyến đường.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🏆 <strong>FIS TOURNAMENT 2025</strong> 🏆</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function scrollToMap(stationId) {
+            const mapSection = document.getElementById('map-section');
+            mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            const stationNames = {
+                'start': 'Điểm Xuất Phát (A) - Sân Cầu Lông',
+                'checkpoint1': 'Trạm Tiếp Sức 1 (B) - Gần nhà xe',
+                'checkpoint2': 'Trạm Tiếp Sức 2 (C) - Khu tĩnh lặng',
+                'finish': 'Điểm Về Đích (D) - Cuối đường Fintech'
+            };
+
+            showToast('📍 ' + stationNames[stationId]);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
